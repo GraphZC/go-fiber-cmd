@@ -66,8 +66,7 @@ func init() {
 		log.Fatal("Could not connect to the database: ", err)
 	}
 
-	migrateUpCmd.Flags().BoolP("fresh", "f", false, "Fresh migrations")
 	migrateCmd.AddCommand(migrateUpCmd)
 
-
+	migrateUpCmd.Flags().BoolP("fresh", "f", false, "Fresh migrations")
 }
