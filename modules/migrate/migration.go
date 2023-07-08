@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/GraphZC/go-fiber-cmd/configs"
 )
@@ -69,7 +70,12 @@ func (m *Migrations) Up() (int, error) {
 		}
 
 		// Execute *up.sql file
-		db.Exec(string(sqlStatement))
+		for _, sql := range SplitMigration(string(sqlStatement)) {
+			if strings.TrimSpace(sql) == "" {
+				continue
+			}
+			db.Exec(sql)
+		}
 
 		// Update migrations.csv
 		m.migrations[i].IsMigrate = true
@@ -97,7 +103,12 @@ func (m *Migrations) Down() (int, error) {
 		}
 
 		// Execute *down.sql file
-		db.Exec(string(sqlStatement))
+		for _, sql := range SplitMigration(string(sqlStatement)) {
+			if strings.TrimSpace(sql) == "" {
+				continue
+			}
+			db.Exec(sql)
+		}
 
 		// Update migrations.csv
 		m.migrations[i].IsMigrate = false
@@ -112,4 +123,8 @@ func (m *Migrations) Down() (int, error) {
 
 func (m *Migrations) Done() error {
 	return write(m.migrations)
+}
+
+func SplitMigration(migration string) []string {
+	return strings.Split(migration, ";")
 }
