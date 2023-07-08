@@ -103,7 +103,7 @@ func (m *Migrations) Down() (int, error) {
 		m.migrations[i].IsMigrate = false
 
 		// Print migrate success
-		fmt.Printf("[Migrate] Migrate up %s success\n", m.migrations[i].Name)
+		fmt.Printf("[Migrate] Migrate down %s success\n", m.migrations[i].Name)
 		n++
 	}
 
