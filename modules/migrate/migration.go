@@ -69,7 +69,7 @@ func (m *Migrations) Up() (int, error) {
 		}
 
 		// Execute *up.sql file
-		db.MustExec(string(sqlStatement))
+		db.Exec(string(sqlStatement))
 
 		// Update migrations.csv
 		m.migrations[i].IsMigrate = true
@@ -96,14 +96,14 @@ func (m *Migrations) Down() (int, error) {
 			return 0, err
 		}
 
-		// Execute *up.sql file
-		db.MustExec(string(sqlStatement))
+		// Execute *down.sql file
+		db.Exec(string(sqlStatement))
 
 		// Update migrations.csv
 		m.migrations[i].IsMigrate = false
 
 		// Print migrate success
-		fmt.Printf("[Migrate] Migrate up %s success\n", m.migrations[i].Name)
+		fmt.Printf("[Migrate] Migrate down %s success\n", m.migrations[i].Name)
 		n++
 	}
 
