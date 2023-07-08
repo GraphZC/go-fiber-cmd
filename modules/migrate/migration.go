@@ -69,7 +69,7 @@ func (m *Migrations) Up() (int, error) {
 		}
 
 		// Execute *up.sql file
-		db.MustExec(string(sqlStatement))
+		db.Exec(string(sqlStatement))
 
 		// Update migrations.csv
 		m.migrations[i].IsMigrate = true
@@ -96,8 +96,8 @@ func (m *Migrations) Down() (int, error) {
 			return 0, err
 		}
 
-		// Execute *up.sql file
-		db.MustExec(string(sqlStatement))
+		// Execute *down.sql file
+		db.Exec(string(sqlStatement))
 
 		// Update migrations.csv
 		m.migrations[i].IsMigrate = false
